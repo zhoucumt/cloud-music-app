@@ -9,11 +9,34 @@ const db = cloud.database();
 const rp = require('request-promise');
 // const URL = 'http://musicapi.xiecheng.live/personalized';
 const URL = 'https://autumnfish.cn/personalized';
-const playlistCollection = db.collection('playlist')
+const playlistCollection = db.collection('playlist');
+const MAX_LIMIT = 100;
 
 // 云函数入口函数
 exports.main = async (event, context) => {
-  const list = await playlistCollection.get();
+  // const list = await playlistCollection.get();
+  // 查询数据库中总的条数，返回的是一个对象
+  const countResult = await playlistCollection.count()
+  // 从对象中取到总条数
+  const total = countResult.total
+  // 需要查询的次数
+  const batchTimes = Math.ceil(total / MAX_LIMIT)
+  const tasks = []
+  for (let i = 0; i < batchTimes; i++) {
+    let promise = playlistCollection.skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()
+    tasks.push(promise)
+  }
+  let list = {
+    data: []
+  }
+  // 突破云函数每次最多查询100条数据的限制
+  if (tasks.length > 0) {
+    list = (await Promise.all(tasks)).reduce((acc, cur) => {
+      return {
+        data: acc.data.concat(cur.data)
+      }
+    })
+  }
 
   const playlist = await rp(URL).then((res) => {
     return JSON.parse(res).result;
