@@ -40,6 +40,7 @@ Page({
       this.setData({
         playlist: this.data.playlist.concat(res.result.data)
       });
+      wx.stopPullDownRefresh();
       wx.hideLoading();
     });
   },
@@ -76,7 +77,10 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-
+    this.setData({
+      playlist: []
+    });
+    this._getPlaylist();
   },
 
   /**
