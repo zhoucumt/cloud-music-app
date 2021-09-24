@@ -1,0 +1,23 @@
+{
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/musiclist/musiclist",
+          "pathName": "pages/musiclist/musiclist",
+          "query": "playlistId=786361021",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

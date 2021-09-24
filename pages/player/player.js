@@ -28,6 +28,7 @@ Page({
 
   // 根据id获取歌曲详情
   _loadMusicDetail(musicId) {
+    backgroundAudioManager.stop();
     let music = musiclist[nowPlayingIndex];
     // 标题显示为歌曲的名称
     wx.setNavigationBarTitle({
@@ -63,6 +64,37 @@ Page({
       });
       wx.hideLoading();
     })
+  },
+
+  // 暂停和播放的切换
+  togglePlaying() {
+    // 正在播放
+    if (this.data.isPlaying) {
+      backgroundAudioManager.pause();
+    } else {
+      backgroundAudioManager.play();
+    }
+    this.setData({
+      isPlaying: !this.data.isPlaying
+    });
+  },
+
+  // 上一首
+  onPrev() {
+    nowPlayingIndex--;
+    if (nowPlayingIndex < 0) {
+      nowPlayingIndex = musiclist.length - 1;
+    }
+    this._loadMusicDetail(musiclist[nowPlayingIndex].id);
+  },
+
+  // 下一首
+  onNext() {
+    nowPlayingIndex++;
+    if (nowPlayingIndex === musiclist.length) {
+      nowPlayingIndex = 0;
+    }
+    this._loadMusicDetail(musiclist[nowPlayingIndex].id);
   },
 
   /**
