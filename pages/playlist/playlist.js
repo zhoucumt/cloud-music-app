@@ -26,6 +26,7 @@ Page({
     this._getPlaylist();
   },
 
+  // 从云函数中获取歌单列表
   _getPlaylist() {
     wx.showLoading({
       title: '加载中...',

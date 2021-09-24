@@ -33,9 +33,14 @@ Page({
           name: pl.name,
         }
       })
-      // this._setMusiclist();
+      this._setMusiclist();
       wx.hideLoading()
     });
+  },
+
+  // 将歌曲存储到本地
+  _setMusiclist() {
+    wx.setStorageSync('musiclist', this.data.musiclist)
   },
 
   /**
