@@ -34,5 +34,12 @@ exports.main = async (event, context) => {
       })
   });
 
+  // 获取歌曲播放地址
+  app.router('musicUrl', async(ctx, next) => {
+    ctx.body = await rp(BASE_URL + `/song/url?id=${event.musicId}`).then((res) => {
+      return res
+    });
+  });
+
   return app.serve();
 };

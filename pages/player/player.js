@@ -2,6 +2,8 @@
 let musiclist = [];
 // 正在播放歌曲的index
 let nowPlayingIndex = 0;
+// 获取全局唯一的背景音频管理器
+const backgroundAudioManager = wx.getBackgroundAudioManager();
 
 Page({
 
@@ -36,6 +38,31 @@ Page({
       picUrl: music.al.picUrl,
       isPlaying: false,
     });
+
+    wx.showLoading({
+      title: '歌曲加载中',
+    });
+    // 调用云函数获取歌曲url播放地址
+    wx.cloud.callFunction({
+      name: 'music',
+      data: {
+        musicId,
+        $url: 'musicUrl',
+      }
+    }).then(res => {
+      let result = JSON.parse(res.result);
+      backgroundAudioManager.src = result.data[0].url;
+      backgroundAudioManager.title = music.name;
+      backgroundAudioManager.coverImgUrl = music.al.picUrl;
+      backgroundAudioManager.singer = music.ar[0].name;
+      backgroundAudioManager.epname = music.al.name;
+
+      // 设置成正在播放
+      this.setData({
+        isPlaying: true
+      });
+      wx.hideLoading();
+    })
   },
 
   /**
