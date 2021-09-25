@@ -1,7 +1,7 @@
 // 云函数入口文件
 const cloud = require('wx-server-sdk');
 const TcbRouter = require('tcb-router');
-const rp = require('request-promise');
+const axios = require('axios');
 const BASE_URL = 'https://autumnfish.cn';
 
 cloud.init({
@@ -28,17 +28,21 @@ exports.main = async (event, context) => {
 
   // 歌单点进去的歌曲列表接口
   app.router('musiclist', async(ctx, next) => {
-    ctx.body = await rp(BASE_URL + '/playlist/detail?id=' + parseInt(event.playlistId))
-      .then((res) => {
-        return JSON.parse(res)
-      })
+    // ctx.body = await axios.get(BASE_URL + '/playlist/detail?id=' + parseInt(event.playlistId))
+    //   .then((res) => {
+    //     return JSON.parse(res)
+    //   })
+    const { data } = await axios.get(BASE_URL + '/playlist/detail?id=' + parseInt(event.playlistId));
+    ctx.body = data;
   });
 
   // 获取歌曲播放地址
   app.router('musicUrl', async(ctx, next) => {
-    ctx.body = await rp(BASE_URL + `/song/url?id=${event.musicId}`).then((res) => {
-      return res
-    });
+    // ctx.body = await axios.get(BASE_URL + `/song/url?id=${event.musicId}`).then((res) => {
+    //   return res
+    // });
+    const { data } = await axios.get(BASE_URL + `/song/url?id=${event.musicId}`);
+    ctx.body = data
   });
 
   return app.serve();

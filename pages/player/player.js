@@ -51,12 +51,20 @@ Page({
         $url: 'musicUrl',
       }
     }).then(res => {
-      let result = JSON.parse(res.result);
-      backgroundAudioManager.src = result.data[0].url;
-      backgroundAudioManager.title = music.name;
-      backgroundAudioManager.coverImgUrl = music.al.picUrl;
-      backgroundAudioManager.singer = music.ar[0].name;
-      backgroundAudioManager.epname = music.al.name;
+      console.log('结果:', res)
+      const musicInfo = res.result.data[0]
+      // let result = JSON.parse(res.result);
+      // backgroundAudioManager.src = result.data[0].url;
+      // backgroundAudioManager.title = music.name;
+      // backgroundAudioManager.coverImgUrl = music.al.picUrl;
+      // backgroundAudioManager.singer = music.ar[0].name;
+      // backgroundAudioManager.epname = music.al.name;
+
+      backgroundAudioManager.src = musicInfo.url // 要播放歌曲的 url
+      backgroundAudioManager.title = music.name // 要播放歌曲的歌 名字      
+      backgroundAudioManager.coverImgUrl = music.al.picUrl // 要播放歌曲的 封面图片
+      backgroundAudioManager.singer = music.ar[0].name // 要播放歌曲的 歌手名字
+      backgroundAudioManager.epname = music.al.name // 要播放歌曲的 专辑名字
 
       // 设置成正在播放
       this.setData({

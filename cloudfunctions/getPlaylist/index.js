@@ -6,7 +6,7 @@ cloud.init({
 });
 const db = cloud.database();
 
-const rp = require('request-promise');
+const axios = require('axios');
 // const URL = 'http://musicapi.xiecheng.live/personalized';
 const URL = 'https://autumnfish.cn/personalized';
 const playlistCollection = db.collection('playlist');
@@ -38,7 +38,7 @@ exports.main = async (event, context) => {
     })
   }
 
-  const playlist = await rp(URL).then((res) => {
+  const playlist = await axios.get(URL).then((res) => {
     return JSON.parse(res).result;
   });
 
