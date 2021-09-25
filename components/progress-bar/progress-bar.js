@@ -2,7 +2,8 @@
 let movableAreaWidth = 0;
 let movableViewWidth = 0;
 const backgroundAudioManager = wx.getBackgroundAudioManager();
-let duration = 0 // 当前歌曲的总时长，以秒为单位
+let currentSec = -1; // 当前的秒数
+let duration = 0; // 当前歌曲的总时长，以秒为单位
 
 Component({
   /**
@@ -51,8 +52,7 @@ Component({
 
     // 播放相关的事件监听
     _bindBGMEvent() {
-      backgroundAudioManager.onPlay(() => {
-      });
+      backgroundAudioManager.onPlay(() => {});
 
       backgroundAudioManager.onStop(() => {
         console.log('onStop');
@@ -76,6 +76,22 @@ Component({
           setTimeout(() => {
             this._setTime();
           }, 1000)
+        }
+      });
+
+      backgroundAudioManager.onTimeUpdate(() => {
+        const currentTime = backgroundAudioManager.currentTime;
+        const duration = backgroundAudioManager.duration;
+        const sec = currentTime.toString().split('.')[0];
+        if (sec != currentSec) {
+          // console.log(currentTime)
+          const currentTimeFmt = this._dateFormat(currentTime);
+          this.setData({
+            movableDis: (movableAreaWidth - movableViewWidth) * currentTime / duration,
+            progress: currentTime / duration * 100,
+            ['showTime.currentTime']: `${currentTimeFmt.min}:${currentTimeFmt.sec}`,
+          });
+          currentSec = sec;
         }
       });
 
