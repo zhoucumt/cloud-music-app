@@ -14,6 +14,7 @@ Page({
     // 封面图片
     picUrl: '',
     isPlaying: false, // false表示不播放，true表示正在播放
+    isSame: false, // 表示是否为同一首歌
   },
 
   /**
