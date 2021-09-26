@@ -36,6 +36,30 @@ Component({
    * 组件的方法列表
    */
   methods: {
+    // 进度条拖动时触发的逻辑
+    onChange(event) {
+      // console.log(event)
+      // 拖动
+      if (event.detail.source == 'touch') {
+        this.data.progress = event.detail.x / (movableAreaWidth - movableViewWidth) * 100;
+        this.data.movableDis = event.detail.x;
+        // isMoving = true
+        // console.log('change', isMoving)
+      }
+    },
+
+    // 拖动结束时的逻辑
+    onTouchEnd() {
+      const currentTimeFmt = this._dateFormat(Math.floor(backgroundAudioManager.currentTime));
+      this.setData({
+        progress: this.data.progress,
+        movableDis: this.data.movableDis,
+        ['showTime.currentTime']: currentTimeFmt.min + ':' + currentTimeFmt.sec,
+      });
+      backgroundAudioManager.seek(duration * this.data.progress / 100);
+      // isMoving = false
+      // console.log('end', isMoving)
+    },
     // 获取可移动区域相关的宽度
     _getMovableDis() {
       const query = this.createSelectorQuery();
