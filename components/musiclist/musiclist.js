@@ -24,11 +24,11 @@ Component({
       const ds = event.currentTarget.dataset;
       const musicid = ds.musicid;
       this.setData({
-        playingId: musicid
+        playingId: musicid,
       });
       wx.navigateTo({
         url: `../../pages/player/player?musicId=${musicid}&index=${ds.index}`,
       });
-    }
-  }
-})
+    },
+  },
+});
