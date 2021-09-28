@@ -135,6 +135,25 @@ Page({
     });
   },
 
+  // 歌词时间更新后
+  timeUpdate(event) {
+    this.selectComponent('.lyric').update(event.detail.currentTime);
+  },
+
+  // 播放
+  onPlay() {
+    this.setData({
+      isPlaying: true,
+    });
+  },
+
+  // 暂停
+  onPause() {
+    this.setData({
+      isPlaying: false,
+    });
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

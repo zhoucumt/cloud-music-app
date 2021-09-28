@@ -80,6 +80,7 @@ Component({
     _bindBGMEvent() {
       backgroundAudioManager.onPlay(() => {
         isMoving = false;
+        this.triggerEvent('musicPlay');
       });
 
       backgroundAudioManager.onStop(() => {
@@ -88,6 +89,7 @@ Component({
 
       backgroundAudioManager.onPause(() => {
         console.log('Pause');
+        this.triggerEvent('musicPause');
       });
 
       backgroundAudioManager.onWaiting(() => {
@@ -116,13 +118,16 @@ Component({
             // console.log(currentTime)
             const currentTimeFmt = this._dateFormat(currentTime);
             this.setData({
-              movableDis:
-                ((movableAreaWidth - movableViewWidth) * currentTime) /
+              movableDis: ((movableAreaWidth - movableViewWidth) * currentTime) /
                 duration,
               progress: (currentTime / duration) * 100,
               ['showTime.currentTime']: `${currentTimeFmt.min}:${currentTimeFmt.sec}`,
             });
             currentSec = sec;
+            // 联动歌词
+            this.triggerEvent('timeUpdate', {
+              currentTime,
+            });
           }
         }
       });
