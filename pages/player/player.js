@@ -15,6 +15,8 @@ Page({
     picUrl: '',
     isPlaying: false, // false表示不播放，true表示正在播放
     isSame: false, // 表示是否为同一首歌
+    isLyricShow: false,  // 歌词是否显示标志为
+    lyric: '', // 歌词
   },
 
   /**
@@ -72,7 +74,27 @@ Page({
         isPlaying: true
       });
       wx.hideLoading();
-    })
+
+      // 加载歌词
+      wx.cloud.callFunction({
+        name: 'music',
+        data: {
+          musicId,
+          $url: 'lyric'
+        }
+      }).then((res) => {
+        console.log('res结果: ', res);
+        let lyric = '暂无歌词';
+        const lrc = res.result.lrc && res.result.lrc.lyric;
+        if (lrc) {
+          lyric = lrc;
+        }
+        this.setData({
+          lyric,
+        });
+      });
+
+    });
   },
 
   // 暂停和播放的切换
@@ -104,6 +126,13 @@ Page({
       nowPlayingIndex = 0;
     }
     this._loadMusicDetail(musiclist[nowPlayingIndex].id);
+  },
+
+  // 歌词显示后的逻辑
+  onChangeLyricShow() {
+    this.setData({
+      isLyricShow: !this.data.isLyricShow
+    });
   },
 
   /**

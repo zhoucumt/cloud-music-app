@@ -45,5 +45,11 @@ exports.main = async (event, context) => {
     ctx.body = data
   });
 
+  // 获取歌词
+  app.router('lyric', async(ctx, next) => {
+    const { data } = await axios.get(BASE_URL + `/lyric?id=${event.musicId}`);
+    ctx.body = data;
+  });
+
   return app.serve();
 };
