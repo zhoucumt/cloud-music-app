@@ -7,5 +7,14 @@ App({
   },
   globalData: {
     userInfo: null,
+    playingMusicId: -1,
+  },
+
+  setPlayMusicId(musicId) {
+    this.globalData.playingMusicId = musicId;
+  },
+  
+  getPlayMusicId() {
+    return this.globalData.playingMusicId;
   },
 });
