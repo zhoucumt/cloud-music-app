@@ -1,2 +1,14 @@
-<!--pages/blog/blog.wxml-->
-<text>pages/blog/blog.wxml</text>
+<view class="container">
+  <!-- 头部 -->
+  <view class="header">
+    <!-- 发布按钮，fixed在左上角 -->
+    <view class="publish-container" bindtap="onPublish">
+      <i class="iconfont icon-fabu"></i>
+    </view>
+
+    <view class="search-container">
+      <!-- iconfont和icon-sousuo是自定义的名称，目的是把class名称传入组件中，因为组件样式被隔离 -->
+      <x-search iconfont="iconfont" icon-sousuo="icon-sousuo" />
+    </view>
+  </view>
+</view>

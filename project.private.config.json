@@ -1,4 +1,5 @@
 {
+  "setting": {},
   "condition": {
     "plugin": {
       "list": []
@@ -15,6 +16,12 @@
           "name": "pages/musiclist/musiclist",
           "pathName": "pages/musiclist/musiclist",
           "query": "playlistId=786361021",
+          "scene": null
+        },
+        {
+          "name": "pages/blog/blog",
+          "pathName": "pages/blog/blog",
+          "query": "",
           "scene": null
         }
       ]
