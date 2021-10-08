@@ -5,12 +5,16 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    // 控制底部弹出层是否显示
+    modalShow: false,
   },
 
   // 发布功能
   onPublish() {
     // 判断用户是否授权
+    this.setData({
+      modalShow: true,
+    });
   },
 
   /**
