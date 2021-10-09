@@ -12,8 +12,41 @@ Page({
   // 发布功能
   onPublish() {
     // 判断用户是否授权
-    this.setData({
-      modalShow: true,
+    wx.getSetting({
+      success: (res) => {
+        console.log(res);
+        if (res.authSetting['scope.userInfo']) {
+          console.log('已经授权');
+          wx.getUserInfo({
+            success: (res) => {
+              // console.log(res)
+              this.onLoginSuccess({
+                detail: res.userInfo
+              });
+            }
+          });
+        } else {
+          console.log('还没授权');
+          this.setData({
+            modalShow: true,
+          });
+        }
+      }
+    });
+  },
+
+  onLoginSuccess(event) {
+    console.log(event);
+    const detail = event.detail;
+    // wx.navigateTo({
+    //   url: `../blog-edit/blog-edit?nickName=${detail.nickName}&avatarUrl=${detail.avatarUrl}`,
+    // })
+  },
+
+  onLoginFail() {
+    wx.showModal({
+      title: '授权用户才能发布',
+      content: '',
     });
   },
 
