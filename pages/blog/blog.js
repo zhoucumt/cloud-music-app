@@ -14,19 +14,24 @@ Page({
     // 判断用户是否授权
     wx.getSetting({
       success: (res) => {
-        console.log(res);
-        if (res.authSetting['scope.userInfo']) {
-          console.log('已经授权');
-          wx.getUserInfo({
+        console.log('success逻辑: ', res);
+        if (res) {
+          console.log('res存在');
+          wx.getUserProfile({
+            lang: 'zh_CN',
+            desc: "获取您的昵称、头像、地区及性别",
             success: (res) => {
-              // console.log(res)
+              console.log('获取您的昵称、头像、地区及性别成功: ', res);
               this.onLoginSuccess({
                 detail: res.userInfo
               });
+            },
+            fail: (res) => {
+              this.onLoginFail();
             }
           });
         } else {
-          console.log('还没授权');
+          console.log('打开底部弹层');
           this.setData({
             modalShow: true,
           });
