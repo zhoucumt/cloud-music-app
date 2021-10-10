@@ -23,6 +23,12 @@
           "pathName": "pages/blog/blog",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "blog-edit",
+          "pathName": "pages/blog-edit/blog-edit",
+          "query": "nickName=preszhou&avatarUrl=https%3A%2F%2Fthirdwx.qlogo.cn%2Fmmopen%2Fvi_32%2FPvvX0aSnbO3pBco1KoaxH9nyfkI8xM4ODk2weyQm4mYXn0J7qqGAibcCUORQp3ibficaAc7kH22h0LXPuPbP76oicQ%2F132",
+          "scene": null
         }
       ]
     }

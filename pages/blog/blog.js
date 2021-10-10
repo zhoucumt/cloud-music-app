@@ -17,19 +17,29 @@ Page({
         console.log('success逻辑: ', res);
         if (res) {
           console.log('res存在');
-          wx.getUserProfile({
-            lang: 'zh_CN',
-            desc: "获取您的昵称、头像、地区及性别",
-            success: (res) => {
-              console.log('获取您的昵称、头像、地区及性别成功: ', res);
-              this.onLoginSuccess({
-                detail: res.userInfo
-              });
-            },
-            fail: (res) => {
-              this.onLoginFail();
-            }
-          });
+          // 如果能够获取到用户信息，则直接跳转
+          const userInfo = wx.getStorageSync('userinfo');
+          console.log('缓存里的数据: ', userInfo);
+          if (userInfo) {
+            this.onLoginSuccess({
+              detail: userInfo
+            });
+          } else {
+            wx.getUserProfile({
+              lang: 'zh_CN',
+              desc: "获取您的昵称、头像、地区及性别",
+              success: (res) => {
+                console.log('获取您的昵称、头像、地区及性别成功: ', res);
+                wx.setStorageSync('userinfo', res.userInfo);
+                this.onLoginSuccess({
+                  detail: res.userInfo
+                });
+              },
+              fail: (res) => {
+                this.onLoginFail();
+              }
+            });
+          }
         } else {
           console.log('打开底部弹层');
           this.setData({
@@ -43,9 +53,9 @@ Page({
   onLoginSuccess(event) {
     console.log(event);
     const detail = event.detail;
-    // wx.navigateTo({
-    //   url: `../blog-edit/blog-edit?nickName=${detail.nickName}&avatarUrl=${detail.avatarUrl}`,
-    // })
+    wx.navigateTo({
+      url: `../blog-edit/blog-edit?nickName=${detail.nickName}&avatarUrl=${detail.avatarUrl}`,
+    });
   },
 
   onLoginFail() {
